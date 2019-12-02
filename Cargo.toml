@@ -1,0 +1,72 @@
+[package]
+name = "compact-space"
+version = "0.1.0"
+authors = ["Christian Fisch <christian.fiesel@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+tetra = { git = "https://github.com/17cupsofcoffee/tetra.git", tag = "0.2.18" }
+
+# specs
+specs = "0.15.0"
+specs-derive = "0.4.0"
+
+# ron
+ron = "0.5"
+serde = { version = "1", features = ["serde_derive"] }
+
+# random
+rand = "0.6"
+rand_core = "0.2.2"
+
+# math
+vek = { version = "0.9.9", features = ["serde"] }
+
+[build-dependencies]
+winres = "0.1"
+image = "0.21.1"
+
+[profile.dev]
+opt-level = 3
+debug = 0
+rpath = false
+lto = false
+debug-assertions = false
+codegen-units = 16
+overflow-checks = false
+incremental = true
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = 'abort'
+incremental = false
+overflow-checks = true
+
+[package.metadata.deb]
+depends = "libasound2 (>= 1.1.3)"
+extended-description = """
+Compact Space - an unusual space shooter
+
+Original made for Game Off 2019 Jam.
+
+jam page : https://itch.io/jam/game-off-2019
+
+source   : https://github.com/puppetmaster-/compact-space
+
+"""
+section = "games"
+
+[package.metadata.winres]
+OriginalFilename = "compact-space.exe"
+LegalCopyright = "Copyright © 2019 Christian Fisch"
+
+[package.metadata.rpm]
+buildflags = ["--release"]
+
+[package.metadata.rpm.targets]
+compact-space = { path = "/usr/bin/compact-space" }

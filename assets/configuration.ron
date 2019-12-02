@@ -1,0 +1,14 @@
+(
+	titel: "Compact Space",
+	clear_color: (r:0.1,g:0.1,b:0.15,a:1.0),
+	window_width: 640,
+    window_height: 640,
+	maximized: true,
+	fullscreen: true,
+	resizable: false,
+	scaling: Resize,
+	show_mouse: false,
+	vsync: true,
+	quit_on_escape: false,
+	master_volume: 1.0,
+)
