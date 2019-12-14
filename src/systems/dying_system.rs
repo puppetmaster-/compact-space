@@ -1,5 +1,5 @@
 use specs::{System, WriteStorage, Join, ReadStorage, WriteExpect, Entities};
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::components::{Position, Moveing, Dying, Collided, Hidden};
 use crate::auxiliary::ARENA_RADIUS;
 use crate::ressources::{Gamestate, State};

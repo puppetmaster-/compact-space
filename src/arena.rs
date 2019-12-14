@@ -1,6 +1,6 @@
 use rand::prelude::*;
 use specs::prelude::*;
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::components::{Position, Renderable, Player, Input, Timer, Rotation, Collision, Moveing, Camera, Dying, Explosive, DoNotDelete, Spawning, EnemyType, Emitter, Lifetime, Particle};
 use crate::auxiliary::{WHITE, Vec2F32, degrees_to_radians, ARENA_RADIUS, SEED};
 

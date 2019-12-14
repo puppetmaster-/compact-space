@@ -1,5 +1,5 @@
 use specs::{System, WriteStorage, Join, ReadStorage, WriteExpect, Entities, ReadExpect};
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::components::*;
 use crate::ressources::{Gamestate, State, Randomizer};
 use crate::auxiliary::WHITE;

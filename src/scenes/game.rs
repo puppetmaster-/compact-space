@@ -5,7 +5,7 @@ use crate::models::config::Config;
 use crate::assets::Assets;
 use tetra::{Context, graphics, audio, window};
 use specs::prelude::*;
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::components::{Position, Renderable, Rotation, Hidden, Scaleable};
 use crate::systems::*;
 use tetra::graphics::DrawParams;
@@ -13,7 +13,6 @@ use crate::ressources::{camera::CameraRessource, Gamestate, State};
 use crate::scenes::manager::{Transition, Scene};
 use crate::{arena, components, ressources};
 use crate::auxiliary::*;
-use crate::auxiliary::to_tetra_vec2;
 use std::time::{Instant, Duration};
 use tetra::audio::{SoundInstance, Sound};
 
@@ -87,7 +86,7 @@ impl Scene for GameScene {
 		Ok(Transition::None)
 	}
 
-	fn draw(&mut self, ctx: &mut Context, _dt: f64) -> tetra::Result<Transition> {
+	fn draw(&mut self, ctx: &mut Context) -> tetra::Result<Transition> {
 		let camera = self.world.read_resource::<CameraRessource>();
 		graphics::clear(ctx, self.config.clear_color);
 
@@ -112,31 +111,31 @@ impl Scene for GameScene {
 				_ => Vec2::one(),
 			};
 			let draw_params = DrawParams::new()
-				.position(to_tetra_vec2(pos.value - camera.offset))
+				.position(pos.value - camera.offset)
 				.color(to_tetra_color(render.color))
 				.rotation(degrees_to_radians(rot))
-				.scale(to_tetra_vec2(scale))
-				.origin(to_tetra_vec2(render.origin));
+				.scale(scale)
+				.origin(render.origin);
 			self.assets.borrow().draw(ctx, render.texture_id, draw_params);
 			if self.world.read_resource::<Gamestate>().state == State::Dead{
 				self.assets.borrow().draw(ctx, 800, DrawParams::new()
-					.position(to_tetra_vec2(camera.window_half))
-					.origin(to_tetra_vec2(Vec2::new(128.0,32.0)))
+					.position(camera.window_half)
+					.origin(Vec2::new(128.0,32.0))
 				);
 				self.assets.borrow().draw_text(ctx, 0, DrawParams::new()
-					.position(to_tetra_vec2(camera.window_half-Vec2::new(120.0,-40.0)))
+					.position(camera.window_half-Vec2::new(120.0,-40.0))
 				);
 			}
 			if self.world.read_resource::<Gamestate>().state == State::Start{
 				self.assets.borrow().draw(ctx, 801, DrawParams::new()
-					.position(to_tetra_vec2(camera.window_half))
-					.origin(to_tetra_vec2(Vec2::new(128.0,32.0)))
+					.position(camera.window_half)
+					.origin(Vec2::new(128.0,32.0))
 				);
 			}
 			if self.world.read_resource::<Gamestate>().state == State::Pause{
 				self.assets.borrow().draw(ctx, 802, DrawParams::new()
-					.position(to_tetra_vec2(camera.window_half))
-					.origin(to_tetra_vec2(Vec2::new(128.0,32.0)))
+					.position(camera.window_half)
+					.origin(Vec2::new(128.0,32.0))
 				);
 			}
 		}

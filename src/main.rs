@@ -28,12 +28,11 @@ fn main() -> tetra::Result {
         .maximized(config.maximized)
         .fullscreen(config.fullscreen)
         .resizable(config.resizable)
-        .scaling(config.scaling)
         .vsync(config.vsync)
         .show_mouse(config.show_mouse)
         .quit_on_escape(config.quit_on_escape)
         .build()?
-        .run_with(|ctx| {
+        .run(|ctx| {
             let assets = Rc::new(RefCell::new(Assets::init(ctx)?));
             let scene = GameScene::new(ctx,config,assets)?;
             Ok(SceneManager::new(Box::new(scene)))

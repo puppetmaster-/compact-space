@@ -4,7 +4,7 @@ use tetra::{Context, State};
 
 pub trait Scene {
 	fn update(&mut self, ctx: &mut Context) -> tetra::Result<Transition>;
-	fn draw(&mut self, ctx: &mut Context, dt: f64) -> tetra::Result<Transition>;
+	fn draw(&mut self, ctx: &mut Context) -> tetra::Result<Transition>;
 }
 
 #[allow(dead_code)]
@@ -48,9 +48,9 @@ impl State for SceneManager {
 		Ok(())
 	}
 
-	fn draw(&mut self, ctx: &mut Context, dt: f64) -> tetra::Result {
+	fn draw(&mut self, ctx: &mut Context) -> tetra::Result {
 		match self.scenes.last_mut() {
-			Some(active_scene) => match active_scene.draw(ctx, dt)? {
+			Some(active_scene) => match active_scene.draw(ctx)? {
 				Transition::None => {}
 				Transition::Push(s) => {
 					self.scenes.push(s);

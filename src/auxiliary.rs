@@ -1,5 +1,5 @@
 use std::f32::consts::PI;
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::components::ComponentColor;
 
 pub(crate) const ARENA_RADIUS: f32 = 470.0;
@@ -26,8 +26,4 @@ pub fn degrees_to_radians(degrees: f32) -> f32{
 pub fn to_tetra_color(color: ComponentColor) -> tetra::graphics::Color{
 	use tetra::graphics::Color;
 	Color::rgba(color.r,color.g,color.b,color.a)
-}
-
-pub fn to_tetra_vec2(vec: vek::Vec2<f32>) -> tetra::glm::Vec2{
-	tetra::glm::Vec2::new(vec.x,vec.y)
 }
