@@ -1,9 +1,12 @@
 use tetra::{Context, graphics};
 use tetra::graphics::{Texture, DrawParams, Text, Font};
+use tetra::audio::Sound;
+use crate::models::sound_pool::SoundPool;
 use std::collections::HashMap;
 use std::iter::Iterator;
 
 type TextureHashmap = HashMap<TextureName, Texture>;
+pub(crate) type SoundHashmap = HashMap<usize, SoundPool>;
 type TextVec = Vec<Text>;
 
 pub struct Assets{
@@ -30,6 +33,10 @@ impl Assets{
 	
 	pub fn get_text_mut(&mut self) ->&mut Text{
 		&mut self.texts[0]
+	}
+
+	pub fn build_sounds(&self, ctx: &mut Context) -> tetra::Result<SoundHashmap>{
+		build_sounds(ctx)
 	}
 
 }
@@ -78,7 +85,7 @@ fn build_textures(ctx: &mut Context) ->tetra::Result<TextureHashmap>{
 		(TextureName::Astroid31, Texture::from_file_data(ctx, include_bytes!("../assets/art/asteroid_31.png"))?),
 		(TextureName::Enemy00, Texture::from_file_data(ctx, include_bytes!("../assets/art/enemy_00.png"))?),
 		(TextureName::Enemy01, Texture::from_file_data(ctx, include_bytes!("../assets/art/enemy_01.png"))?),
-		(TextureName::Enemy02, Texture::from_file_data(ctx, include_bytes!("../assets/art/enemy_02.png"))?),
+		(TextureName::Enemy02, Texture::from_file_data(ctx, include_bytes!("../assets/art/enemy_02-xmas.png"))?),
 		(TextureName::Parts00, Texture::from_file_data(ctx, include_bytes!("../assets/art/art_08.png"))?),
 		(TextureName::Parts01, Texture::from_file_data(ctx, include_bytes!("../assets/art/art_09.png"))?),
 		(TextureName::Parts02, Texture::from_file_data(ctx, include_bytes!("../assets/art/art_10.png"))?),
@@ -100,6 +107,21 @@ fn build_textures(ctx: &mut Context) ->tetra::Result<TextureHashmap>{
 		(TextureName::GuiStart, Texture::from_file_data(ctx, include_bytes!("../assets/art/start.png"))?),
 		(TextureName::GuiPause, Texture::from_file_data(ctx, include_bytes!("../assets/art/pause.png"))?),
 		].iter().cloned().collect()
+	)
+}
+
+fn build_sounds(ctx: &mut Context) -> tetra::Result<SoundHashmap>{
+	Ok([
+		(0, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion.wav")), 6)?),
+		(1, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion2.wav")), 6)?),
+		(5, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion1.wav")), 6)?),
+		(2, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew.wav")), 6)?),
+		(3, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew2.wav")), 6)?),
+		(4, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew7.wav")), 6)?),
+		(6, SoundPool::single(ctx, Sound::from_file_data(include_bytes!("../assets/sound/thrust.wav")))?),
+		(7, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/metal-ping.wav")), 6)?),
+		(8, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion4.wav")), 6)?),
+	].iter().cloned().collect()
 	)
 }
 
