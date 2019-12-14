@@ -2,7 +2,7 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use rand::prelude::*;
 use crate::models::config::Config;
-use crate::assets::Assets;
+use crate::assets::{Assets,SoundHashmap};
 use tetra::{Context, graphics, audio, window};
 use specs::prelude::*;
 use tetra::math::Vec2;
@@ -26,6 +26,8 @@ pub struct GameScene {
 	config: Rc<Config>,
 	assets: Rc<RefCell<Assets>>,
 	background_music_instance: SoundInstance,
+	sounds: SoundHashmap,
+	randomizer: ThreadRng,
 }
 
 impl GameScene {
@@ -40,6 +42,7 @@ impl GameScene {
 		background_music_instance.set_repeating(true);
 		background_music_instance.play();
 		background_music_instance.set_volume(0.2);
+		let sounds = assets.borrow().build_sounds(ctx)?;
 
 		Ok(GameScene {
 			world,
@@ -50,6 +53,8 @@ impl GameScene {
 			assets,
 			config,
 			background_music_instance,
+			sounds,
+			randomizer: rand::thread_rng(),
 		})
 	}
 }
@@ -81,6 +86,18 @@ impl Scene for GameScene {
 		}
 		if self.world.read_resource::<Gamestate>().state == State::Quit{
 			window::quit(ctx);
+		}
+
+		// play sound
+		let mut play_sounds = self.world.write_storage::<PlaySound>();
+		let entities = self.world.entities();
+		let mut remove = vec![];
+		for (entity, play_sound) in (&entities, &play_sounds).join(){
+			self.sounds.get_mut(&play_sound.id).expect("no sound").play(play_sound.vol, self.randomizer.gen_range(0.5, 0.6));
+			remove.push(entity);
+		}
+		for r in remove {
+			play_sounds.remove(r);
 		}
 
 		Ok(Transition::None)

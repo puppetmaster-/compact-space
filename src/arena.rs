@@ -180,6 +180,8 @@ fn add_player(world: &mut World) -> Entity{
 		.with(Rotation {
 			..Default::default()
 		})
+		.with(ShootSound{ id: 2, vol: 0.1})
+		.with(ExplosionSound{ id: 5, vol: 0.4 })
 		.with(Camera)
 		.with(Dying)
 		.with(Explosive{ texture_id: (300, 304), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default() })
@@ -237,7 +239,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 
 	data.push(PhaseData::new(
 		100,
-		EnemyType::Follower,
+		EnemyType::Stroller,
 		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0),Vec2F32::new(-400.0,400.0),Vec2F32::new(400.0,-400.0)]));
 	data.push(PhaseData::new(
 		200,
@@ -245,7 +247,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 		vec![Vec2F32::new(-400.0,0.0),Vec2F32::new(-400.0,200.0),Vec2F32::new(400.0,0.0),Vec2F32::new(400.0,200.0)]));
 	data.push(PhaseData::new(
 		400,
-		EnemyType::Follower,
+		EnemyType::Stroller,
 		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0),Vec2F32::new(-400.0,400.0),Vec2F32::new(400.0,-400.0)]));
 	data.push(PhaseData::new(
 		1000,
@@ -253,7 +255,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0)]));
 	data.push(PhaseData::new(
 		100,
-		EnemyType::Follower,
+		EnemyType::Stroller,
 		vec![
 			Vec2F32::new(-400.0,-400.0),
 			Vec2F32::new(400.0,400.0),
@@ -264,7 +266,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 		]));
 	data.push(PhaseData::new(
 		200,
-		EnemyType::Follower2,
+		EnemyType::Follower,
 		vec![
 			Vec2F32::new(-200.0,-400.0),
 			Vec2F32::new(-100.0,-400.0),
@@ -278,7 +280,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 		vec![Vec2F32::new(-500.0,0.0),Vec2F32::new(500.0,0.0)]));
 	data.push(PhaseData::new(
 		200,
-		EnemyType::Follower2,
+		EnemyType::Follower,
 		vec![
 			Vec2F32::new(-200.0,400.0),
 			Vec2F32::new(-100.0,400.0),

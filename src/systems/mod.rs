@@ -16,6 +16,7 @@ pub mod explosion_system;
 pub mod follower_system;
 pub mod spawning_system;
 pub mod emitter_system;
+pub mod sound_system;
 
 pub fn create_dispatcher<'a,'b>() -> Dispatcher<'a, 'b>{
 	DispatcherBuilder::new()
@@ -30,6 +31,7 @@ pub fn create_dispatcher<'a,'b>() -> Dispatcher<'a, 'b>{
 		.with(rotating_system::Sys{},"rotating",&["player"])
 		.with(collision_system::Sys{},"collision",&["player"])
 		.with(follower_system::Sys{},"following",&["player"])
+		.with(sound_system::Sys{}, "sound",&["player"])
 		.with(moving_system::Sys {}, "moveing", &["targeting","rotating"])
 		.with(explosion_system::Sys{}, "explosion",&["collision"])
 		.with(dying_system::Sys {}, "dying", &["moveing"])

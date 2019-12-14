@@ -1,6 +1,7 @@
-use specs::{System, WriteStorage, Join, Entities, ReadStorage};
+use specs::{System, WriteStorage, Join, Entities, ReadStorage, WriteExpect};
 use crate::components::{Position, Collision, Collided, Enemy, Hidden, Indestructible, Target};
 use crate::auxiliary::Vec2F32;
+use crate::systems::sound_system::SoundBuilder;
 
 pub struct Sys {}
 
@@ -15,6 +16,7 @@ impl<'a> System<'a> for Sys {
 		ReadStorage<'a, Enemy>,
 		ReadStorage<'a, Target>,
 		ReadStorage<'a, Hidden>,
+		WriteExpect<'a, SoundBuilder>,
 	);
 
 	fn run(&mut self, data : Self::SystemData) {
@@ -25,7 +27,8 @@ impl<'a> System<'a> for Sys {
 			indestructible,
 			enemies,
 			targets,
-			hidden
+			hidden,
+			mut sound_builder
 		) = data;
 		let data1 = (&*entities, &positions, &collisions, !&collided, !&hidden).join().collect::<Vec<_>>();
 		let data2 = (&*entities, &positions, &collisions, !&collided, !&hidden).join().collect::<Vec<_>>();
@@ -41,6 +44,9 @@ impl<'a> System<'a> for Sys {
 						}
 						if indestructible.get(*entity2).is_none(){
 							collided.insert(*entity2, Collided).expect("could not insert in collided");
+						}
+						if indestructible.get(*entity1).is_some() || indestructible.get(*entity2).is_some(){
+							sound_builder.request(7,0.1);
 						}
 						if let Some(t) = targets.get(*entity1) {collided.insert(t.target, Collided).expect("could not insert in collided");}
 						if let Some(t) = targets.get(*entity2) {collided.insert(t.target, Collided).expect("could not insert in collided");}

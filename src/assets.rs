@@ -4,6 +4,8 @@ use tetra::audio::Sound;
 use crate::models::sound_pool::SoundPool;
 use std::collections::HashMap;
 use std::iter::Iterator;
+use tetra::audio::Sound;
+use crate::models::sound_pool::SoundPool;
 
 type TextureHashmap = HashMap<TextureName, Texture>;
 pub(crate) type SoundHashmap = HashMap<usize, SoundPool>;

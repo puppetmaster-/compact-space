@@ -5,6 +5,7 @@ use crate::systems::{bullet_system::BulletBuilder,particle_system::ParticleBuild
 use crate::auxiliary::{rounded_vec2, degrees_to_radians};
 use crate::ressources::Randomizer;
 use rand::Rng;
+use crate::systems::sound_system::SoundBuilder;
 
 pub struct Sys {}
 
@@ -16,11 +17,13 @@ impl<'a> System<'a> for Sys {
 		ReadStorage<'a, Input>,
 		WriteExpect<'a, BulletBuilder>,
 		WriteExpect<'a, ParticleBuilder>,
+		WriteExpect<'a, SoundBuilder>,
 		WriteStorage<'a, Renderable>,
 		WriteStorage<'a, Timer>,
 		WriteStorage<'a, Moveing>,
 		WriteStorage<'a, Rotation>,
 		WriteExpect<'a, Randomizer>,
+		ReadStorage<'a, ShootSound>,
 	);
 
 	fn run(&mut self, data : Self::SystemData) {
@@ -29,14 +32,16 @@ impl<'a> System<'a> for Sys {
 			inputs,
 			mut bullet_builder,
 			mut particle_builder,
+			mut sound_builder,
 			mut renderable,
 			mut timer,
 			mut moveables,
 			mut rotating,
 			mut randomizer,
+			shoot_sounds
 		) = data;
 
-		for (_, input, render, moves, rot, timer, pos) in (&player, &inputs, &mut renderable, &mut moveables, &mut rotating, &mut timer, &positions).join() {
+		for (_, input, render, moves, rot, timer, pos, shoot_sound) in (&player, &inputs, &mut renderable, &mut moveables, &mut rotating, &mut timer, &positions, &shoot_sounds).join() {
 
 			let new_direction = moves.direction;
 			let mut red_value = 0.0;
@@ -55,11 +60,13 @@ impl<'a> System<'a> for Sys {
 						throttle_color_value = 0.2;
 					}
 					render.texture_id = 1;
-					add_throttle_particle = true
+					add_throttle_particle = true;
+					sound_builder.request(6,0.6);
 				} else if input.brake {
 					moves.velocity -= 0.1;
 					moves.acceleration = 0.0;
 					render.texture_id = 1;
+					sound_builder.request(6,0.0);
 				}
 				if input.left {
 					if !input.shoot{
@@ -84,11 +91,13 @@ impl<'a> System<'a> for Sys {
 
 			}else{
 				render.texture_id = 0;
+				sound_builder.request(6,0.2);
 			}
 			if input.shoot && timer.value <= 0{
 				let shot_direction = rounded_vec2(Vec2::new(0.0, -1.0).rotated_z(degrees_to_radians(rot.value)));
 				let new_pos = rounded_vec2(pos.value-Vec2::new(0.0,10.0).rotated_z(degrees_to_radians(rot.value)));
 				bullet_builder.request(new_pos, 80.0, shot_direction, moves.velocity);
+				sound_builder.request(shoot_sound.id,shoot_sound.vol);
 				timer.value = timer.initial_value;
 			}
 			if add_throttle_particle || moves.velocity > 0.0{

@@ -28,6 +28,8 @@ impl<'a> System<'a> for Sys {
 		ReadExpect<'a, Gamestate>,
 		ReadStorage<'a, Spawning>,
 		WriteExpect<'a, GameData>,
+		WriteStorage<'a, ExplosionSound>,
+		WriteStorage<'a, ShootSound>,
 	);
 
 	fn run(&mut self, data : Self::SystemData) {
@@ -48,6 +50,8 @@ impl<'a> System<'a> for Sys {
 			gamestates,
 			spawner,
 			mut game_data,
+			mut explosion_sounds,
+			mut shoot_sounds,
 		) = data;
 		if gamestates.state == State::Running{
 			for (timer,_) in (&mut timers, &spawner).join() {
@@ -79,6 +83,7 @@ impl<'a> System<'a> for Sys {
 									}, &mut moveing)
 									.with(Lifetime{ time: 1.0, tick_value: 0.0 }, &mut lieftimes)
 									.with(Collision{ radius: 7.0 },&mut collisions)
+									.with(ExplosionSound{ id: 0, vol: 0.2 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 0.2, rotation: 1.2 }, &mut followers)
 									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default() }, &mut explosives)
 									.with(Enemy,&mut enemies)
@@ -106,6 +111,7 @@ impl<'a> System<'a> for Sys {
 									}, &mut moveing)
 									.with(Lifetime{ time: 1.0, tick_value: 0.0 }, &mut lieftimes)
 									.with(Collision{ radius: 7.0 },&mut collisions)
+									.with(ExplosionSound{ id: 8, vol: 1.0 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 1.0, rotation: 0.2 }, &mut followers)
 									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color, rotation: Default::default() }, &mut explosives)
 									.with(Enemy,&mut enemies)
@@ -131,6 +137,7 @@ impl<'a> System<'a> for Sys {
 									.with(Lifetime{ time: 1.0, tick_value: 0.0 }, &mut lieftimes)
 									.with(Collision{ radius: 55.0 },&mut collisions)
 									.with(Indestructible,&mut indestructible)
+									.with(ExplosionSound{ id: 0, vol: 0.4 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 0.1, rotation: -0.2 }, &mut followers)
 									.with(Explosive{ texture_id: (310, 316), velocity_range: (1.0, 2.0), lifetime_range: (5.0, 10.0), color: ComponentColor{
 										r: 0.5,

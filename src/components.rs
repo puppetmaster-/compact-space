@@ -29,6 +29,8 @@ pub fn register(world: &mut World){
 	world.register::<DoNotDelete>();
 	world.register::<Indestructible>();
 	world.register::<PlaySound>();
+	world.register::<ExplosionSound>();
+	world.register::<ShootSound>();
 	world.register::<Emitter>();
 }
 
@@ -168,8 +170,21 @@ pub struct Explosive{
 }
 
 #[derive(Component, Serialize, Deserialize, Clone, Copy)]
+pub struct ExplosionSound{
+	pub id: usize,
+	pub vol: f32,
+}
+
+#[derive(Component, Serialize, Deserialize, Clone, Copy)]
+pub struct ShootSound{
+	pub id: usize,
+	pub vol: f32,
+}
+
+#[derive(Component, Serialize, Deserialize, Clone, Copy)]
 pub struct PlaySound{
-	sound_id: usize,
+	pub id: usize,
+	pub vol: f32,
 }
 
 #[derive(Component, Default)]
@@ -218,8 +233,8 @@ pub struct Indestructible;
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub enum EnemyType {
+	Stroller,
 	Follower,
-	Follower2,
 	Ballrider,
 }
 
