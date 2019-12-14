@@ -29,7 +29,6 @@ impl<'a> System<'a> for Sys {
 		ReadStorage<'a, Spawning>,
 		WriteExpect<'a, GameData>,
 		WriteStorage<'a, ExplosionSound>,
-		WriteStorage<'a, ShootSound>,
 	);
 
 	fn run(&mut self, data : Self::SystemData) {
@@ -51,7 +50,6 @@ impl<'a> System<'a> for Sys {
 			spawner,
 			mut game_data,
 			mut explosion_sounds,
-			mut shoot_sounds,
 		) = data;
 		if gamestates.state == State::Running{
 			for (timer,_) in (&mut timers, &spawner).join() {
@@ -62,7 +60,7 @@ impl<'a> System<'a> for Sys {
 					let phase_enemy_type = &game_data.phase_data[phase].enemy_type;
 					timer.value = game_data.phase_data[phase].pause;
 					match phase_enemy_type{
-						EnemyType::Follower => {
+						EnemyType::Stroller => {
 							for i in 0..amount{
 								entities.build_entity()
 									.with(Position { value: phase_positions[i]},&mut positions)
@@ -89,7 +87,7 @@ impl<'a> System<'a> for Sys {
 									.with(Enemy,&mut enemies)
 									.build();}
 							},
-						EnemyType::Follower2 => {
+						EnemyType::Follower => {
 							for i in 0..amount{
 								let color = ComponentColor{ r: 0.2, g: 0.8, b: 0.8, a: 1.0 };
 								entities.build_entity()

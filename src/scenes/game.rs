@@ -6,7 +6,7 @@ use crate::assets::{Assets,SoundHashmap};
 use tetra::{Context, graphics, audio, window};
 use specs::prelude::*;
 use tetra::math::Vec2;
-use crate::components::{Position, Renderable, Rotation, Hidden, Scaleable};
+use crate::components::{Position, Renderable, Rotation, Hidden, Scaleable, PlaySound};
 use crate::systems::*;
 use tetra::graphics::DrawParams;
 use crate::ressources::{camera::CameraRessource, Gamestate, State};

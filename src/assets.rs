@@ -1,13 +1,11 @@
 use tetra::{Context, graphics};
 use tetra::graphics::{Texture, DrawParams, Text, Font};
 use tetra::audio::Sound;
-use crate::models::sound_pool::SoundPool;
 use std::collections::HashMap;
 use std::iter::Iterator;
-use tetra::audio::Sound;
 use crate::models::sound_pool::SoundPool;
-
 type TextureHashmap = HashMap<TextureName, Texture>;
+
 pub(crate) type SoundHashmap = HashMap<usize, SoundPool>;
 type TextVec = Vec<Text>;
 
@@ -116,13 +114,13 @@ fn build_sounds(ctx: &mut Context) -> tetra::Result<SoundHashmap>{
 	Ok([
 		(0, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion.wav")), 6)?),
 		(1, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion2.wav")), 6)?),
-		(5, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion1.wav")), 6)?),
 		(2, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew.wav")), 6)?),
 		(3, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew2.wav")), 6)?),
 		(4, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/pew7.wav")), 6)?),
+		(5, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion1.wav")), 6)?),
 		(6, SoundPool::single(ctx, Sound::from_file_data(include_bytes!("../assets/sound/thrust.wav")))?),
 		(7, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/metal-ping.wav")), 6)?),
-		(8, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion4.wav")), 6)?),
+		(8, SoundPool::new(ctx, Sound::from_file_data(include_bytes!("../assets/sound/explosion4.wav")), 6)?)
 	].iter().cloned().collect()
 	)
 }

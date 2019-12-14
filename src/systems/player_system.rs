@@ -1,5 +1,5 @@
 use specs::{System, WriteStorage, ReadStorage, Join, WriteExpect};
-use crate::components::{Position, Player, Input, Renderable, Timer, Moveing, Rotation, ComponentColor, ParticleRequest};
+use crate::components::{Position, Player, Input, Renderable, Timer, Moveing, Rotation, ComponentColor, ParticleRequest, ShootSound};
 use tetra::math::{Vec2, Lerp};
 use crate::systems::{bullet_system::BulletBuilder,particle_system::ParticleBuilder};
 use crate::auxiliary::{rounded_vec2, degrees_to_radians};

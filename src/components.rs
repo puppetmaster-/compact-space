@@ -139,6 +139,7 @@ pub struct Emitter {
 	pub color_range: (f32,f32),
 }
 
+
 #[derive(Component, Serialize, Deserialize, Debug, Clone, Copy)]
 pub struct ComponentColor {
 	pub r: f32,

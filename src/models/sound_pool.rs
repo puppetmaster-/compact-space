@@ -32,7 +32,7 @@ impl SoundPool {
 	pub fn single(ctx: &Context, sound: Sound) -> tetra::Result<SoundPool>{
 
 		let mut instances = Vec::with_capacity(1);
-		let mut instance = sound.spawn(ctx)?;
+		let instance = sound.spawn(ctx)?;
 		instance.set_repeating(true);
 		instance.set_volume(0.0);
 		instance.play();

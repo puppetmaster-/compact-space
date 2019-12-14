@@ -24,7 +24,7 @@ pub fn update(world: &mut World, ctx: &mut Context){
 				game_state.state = State::Pause;
 			}
 		}else if game_state.state == State::Dead {
-			if input::is_key_released(ctx, Key::Return) || input::is_gamepad_button_released(ctx, 0, GamepadButton::Start){
+			if input::is_key_released(ctx, Key::Enter) || input::is_gamepad_button_released(ctx, 0, GamepadButton::Start){
 				game_state.state = State::Init;
 			}else if input::is_key_released(ctx, Key::Escape) || input::is_gamepad_button_released(ctx, 0, GamepadButton::Back){
 				game_state.state = State::Quit;

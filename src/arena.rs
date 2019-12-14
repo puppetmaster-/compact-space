@@ -1,7 +1,7 @@
 use rand::prelude::*;
 use specs::prelude::*;
 use tetra::math::Vec2;
-use crate::components::{Position, Renderable, Player, Input, Timer, Rotation, Collision, Moveing, Camera, Dying, Explosive, DoNotDelete, Spawning, EnemyType, Emitter, Lifetime, Particle};
+use crate::components::{Position, Renderable, Player, Input, Timer, Rotation, Collision, Moveing, Camera, Dying, Explosive, DoNotDelete, Spawning, EnemyType, Emitter, Lifetime, Particle, ShootSound, ExplosionSound};
 use crate::auxiliary::{WHITE, Vec2F32, degrees_to_radians, ARENA_RADIUS, SEED};
 
 const ARENA_IMAGE_SIZE: f32 = 1400.0;
@@ -243,7 +243,7 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0),Vec2F32::new(-400.0,400.0),Vec2F32::new(400.0,-400.0)]));
 	data.push(PhaseData::new(
 		200,
-		EnemyType::Follower2,
+		EnemyType::Follower,
 		vec![Vec2F32::new(-400.0,0.0),Vec2F32::new(-400.0,200.0),Vec2F32::new(400.0,0.0),Vec2F32::new(400.0,200.0)]));
 	data.push(PhaseData::new(
 		400,

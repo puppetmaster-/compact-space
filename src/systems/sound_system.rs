@@ -38,7 +38,6 @@ impl<'a> System<'a> for Sys {
 			mut sound_builder,
 		) = data;
 
-		let sound_count = sound_builder.requests.iter().count();
 		for sound_request in sound_builder.requests.iter() {
 			entities.build_entity()
 				.with(PlaySound{ id: sound_request.sound_id, vol: sound_request.vol }, &mut playsounds)
