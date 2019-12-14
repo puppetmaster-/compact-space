@@ -1,10 +1,11 @@
 use specs::prelude::*;
 use specs::{System, WriteStorage, Join};
-use crate::components::{Emitter, Timer, ParticleRequest, Position, Rotation, ComponentColor};
+use crate::components::{Emitter, Timer, ParticleRequest, Position, Rotation};
 use crate::systems::particle_system::ParticleBuilder;
 use crate::ressources::Randomizer;
 use rand::Rng;
 use crate::auxiliary::Vec2F32;
+use tetra::graphics::Color;
 
 pub struct Sys {}
 
@@ -46,7 +47,7 @@ impl<'a> System<'a> for Sys {
 							always: true,
 							counterclockwise: randomizer.rnd.gen_bool(0.5),
 						},
-						color: ComponentColor{
+						color: Color{
 							r: color_value,
 							g: color_value,
 							b: color_value,

@@ -1,9 +1,10 @@
 use specs::prelude::*;
-use crate::components::{Bullet, Lifetime, Position, Renderable, Moveing, ComponentColor, Scaleable, Collision, Explosive};
+use crate::components::{Bullet, Lifetime, Position, Renderable, Moveing, Scaleable, Collision, Explosive};
 use rand::Rng;
 use tetra::math::Vec2;
 use crate::ressources::Randomizer;
 use crate::auxiliary::{rounded_vec2, ASSET_SIZE, WHITE};
+use tetra::graphics::Color;
 
 struct BulletRequest {
 	direction: Vec2<f32>,
@@ -72,7 +73,7 @@ impl<'a> System<'a> for Sys {
 				.with(Renderable{
 					texture_id: 5,
 					render_order: 1,
-					color: ComponentColor { r: 0.0, g: 1.0, b: randomizer.rnd.gen_range(0.4, 0.8), a: 1.0 },
+					color: Color { r: 0.0, g: 1.0, b: randomizer.rnd.gen_range(0.4, 0.8), a: 1.0 },
 					origin:  ASSET_SIZE / 2.0, },&mut renderables)
 				.with(Lifetime{ time: 2.0 , tick_value: 1.0 / new_bullet.lifetime }, &mut lieftimes)
 				.with(Moveing {

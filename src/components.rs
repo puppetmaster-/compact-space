@@ -2,6 +2,7 @@ use serde::{Serialize, Deserialize};
 use specs::prelude::*;
 use tetra::math::Vec2;
 use crate::auxiliary::{TextureID, Vec2F32};
+use tetra::graphics::Color;
 
 // register all components
 pub fn register(world: &mut World){
@@ -53,7 +54,7 @@ pub struct Input {
 pub struct Renderable {
 	pub texture_id: TextureID,
 	pub render_order : i32,
-	pub color: ComponentColor,
+	pub color: Color,
 	pub origin: Vec2F32,
 }
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
@@ -139,32 +140,12 @@ pub struct Emitter {
 	pub color_range: (f32,f32),
 }
 
-
-#[derive(Component, Serialize, Deserialize, Debug, Clone, Copy)]
-pub struct ComponentColor {
-	pub r: f32,
-	pub g: f32,
-	pub b: f32,
-	pub a: f32,
-}
-
-impl Default for ComponentColor{
-	fn default() -> Self{
-		ComponentColor{
-			r: 1.0,
-			g: 1.0,
-			b: 1.0,
-			a: 1.0
-		}
-	}
-}
-
 #[derive(Component, Serialize, Deserialize, Clone, Copy)]
 pub struct Explosive{
 	pub texture_id: (TextureID,TextureID),
 	pub velocity_range: (f32,f32),
 	pub lifetime_range: (f32,f32),
-	pub color: ComponentColor,
+	pub color: Color,
 	pub rotation: Rotation,
 	//pub acceleration_range: (f32,f32),
 	//pub particleRequest: ParticleRequest,
@@ -249,5 +230,5 @@ pub struct ParticleRequest {
 	pub lifetime: f32,
 	pub texture_id: TextureID,
 	pub rotation: Rotation,
-	pub color: ComponentColor,
+	pub color: Color,
 }

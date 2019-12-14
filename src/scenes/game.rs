@@ -129,7 +129,7 @@ impl Scene for GameScene {
 			};
 			let draw_params = DrawParams::new()
 				.position(pos.value - camera.offset)
-				.color(to_tetra_color(render.color))
+				.color(render.color)
 				.rotation(degrees_to_radians(rot))
 				.scale(scale)
 				.origin(render.origin);

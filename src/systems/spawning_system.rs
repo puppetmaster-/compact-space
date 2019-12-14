@@ -5,6 +5,7 @@ use crate::ressources::{Gamestate, State, Randomizer};
 use crate::auxiliary::WHITE;
 use crate::arena::GameData;
 use rand::Rng;
+use tetra::graphics::Color;
 
 pub struct Sys {}
 
@@ -89,7 +90,7 @@ impl<'a> System<'a> for Sys {
 							},
 						EnemyType::Follower => {
 							for i in 0..amount{
-								let color = ComponentColor{ r: 0.2, g: 0.8, b: 0.8, a: 1.0 };
+								let color = Color{ r: 0.2, g: 0.8, b: 0.8, a: 1.0 };
 								entities.build_entity()
 									.with(Position { value: phase_positions[i]},&mut positions)
 									.with(Renderable {
@@ -137,7 +138,7 @@ impl<'a> System<'a> for Sys {
 									.with(Indestructible,&mut indestructible)
 									.with(ExplosionSound{ id: 0, vol: 0.4 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 0.1, rotation: -0.2 }, &mut followers)
-									.with(Explosive{ texture_id: (310, 316), velocity_range: (1.0, 2.0), lifetime_range: (5.0, 10.0), color: ComponentColor{
+									.with(Explosive{ texture_id: (310, 316), velocity_range: (1.0, 2.0), lifetime_range: (5.0, 10.0), color: Color{
 										r: 0.5,
 										g: 0.5,
 										b: 0.5,

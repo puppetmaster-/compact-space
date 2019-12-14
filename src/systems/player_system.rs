@@ -1,11 +1,12 @@
 use specs::{System, WriteStorage, ReadStorage, Join, WriteExpect};
-use crate::components::{Position, Player, Input, Renderable, Timer, Moveing, Rotation, ComponentColor, ParticleRequest, ShootSound};
+use crate::components::{Position, Player, Input, Renderable, Timer, Moveing, Rotation, ParticleRequest, ShootSound};
 use tetra::math::{Vec2, Lerp};
 use crate::systems::{bullet_system::BulletBuilder,particle_system::ParticleBuilder};
 use crate::auxiliary::{rounded_vec2, degrees_to_radians};
 use crate::ressources::Randomizer;
 use rand::Rng;
 use crate::systems::sound_system::SoundBuilder;
+use tetra::graphics::Color;
 
 pub struct Sys {}
 
@@ -110,7 +111,7 @@ impl<'a> System<'a> for Sys {
 					lifetime: 20.0,
 					texture_id: 4,
 					rotation: Rotation{value: rot.value,..Default::default()},
-					color: ComponentColor { r: red_value, g: 0.4, b: randomizer.rnd.gen_range(0.1, 0.4), a: 0.8 }
+					color: Color { r: red_value, g: 0.4, b: randomizer.rnd.gen_range(0.1, 0.4), a: 0.8 }
 				});
 				particle_builder.request(ParticleRequest{
 					render_order: 3,
@@ -121,7 +122,7 @@ impl<'a> System<'a> for Sys {
 					lifetime: 1.0,
 					texture_id: 6,
 					rotation: Rotation{value: rot.value,..Default::default()},
-					color: ComponentColor { r: 0.8 + throttle_color_value, g: 0.8 + throttle_color_value, b: 0.6 + throttle_color_value, a: 1.0 }
+					color: Color { r: 0.8 + throttle_color_value, g: 0.8 + throttle_color_value, b: 0.6 + throttle_color_value, a: 1.0 }
 				});
 			}
 		}
