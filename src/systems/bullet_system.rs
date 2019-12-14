@@ -1,7 +1,7 @@
 use specs::prelude::*;
 use crate::components::{Bullet, Lifetime, Position, Renderable, Moveing, ComponentColor, Scaleable, Collision, Explosive};
 use rand::Rng;
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::ressources::Randomizer;
 use crate::auxiliary::{rounded_vec2, ASSET_SIZE, WHITE};
 

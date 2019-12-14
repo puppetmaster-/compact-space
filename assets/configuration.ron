@@ -6,7 +6,6 @@
 	maximized: true,
 	fullscreen: true,
 	resizable: false,
-	scaling: Resize,
 	show_mouse: false,
 	vsync: true,
 	quit_on_escape: false,

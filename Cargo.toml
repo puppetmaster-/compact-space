@@ -8,7 +8,7 @@ readme = "README.md"
 edition = "2018"
 
 [dependencies]
-tetra = { git = "https://github.com/17cupsofcoffee/tetra.git", tag = "0.2.18" }
+tetra = { version = "0.3", features = ["serde_support"] }
 
 # specs
 specs = "0.15.0"
@@ -21,9 +21,6 @@ serde = { version = "1", features = ["serde_derive"] }
 # random
 rand = "0.6"
 rand_core = "0.2.2"
-
-# math
-vek = { version = "0.9.9", features = ["serde"] }
 
 [build-dependencies]
 winres = "0.1"

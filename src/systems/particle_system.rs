@@ -1,6 +1,6 @@
 use specs::prelude::*;
 use crate::components::{Lifetime, Position, Renderable, Moveing, Scaleable, Particle, Rotation, ParticleRequest};
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::auxiliary::*;
 
 pub struct ParticleBuilder {

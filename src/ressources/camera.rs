@@ -1,4 +1,4 @@
-use vek::Vec2;
+use tetra::math::Vec2;
 use tetra::Context;
 
 pub struct CameraRessource {

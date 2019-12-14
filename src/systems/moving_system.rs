@@ -1,6 +1,6 @@
 use specs::{System, WriteStorage, Join, ReadExpect};
 use crate::components::{Position, Moveing};
-use vek::ops::*;
+use tetra::math::ops::*;
 use crate::ressources::{Gamestate, State};
 
 pub struct Sys {}

@@ -1,6 +1,6 @@
 use serde::{Serialize, Deserialize};
 use specs::prelude::*;
-use vek::Vec2;
+use tetra::math::Vec2;
 use crate::auxiliary::{TextureID, Vec2F32};
 
 // register all components

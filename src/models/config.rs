@@ -2,13 +2,12 @@ use ron::de::{from_str};
 
 use serde::{Serialize, Deserialize};
 
-use tetra::graphics::{Color,ScreenScaling};
+use tetra::graphics::Color;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
 	// Game configuration
 	pub titel: String,
-	#[serde(with = "ColorDef")]
 	pub clear_color: Color,
 	// Window settings
 	pub window_width: i32,
@@ -16,8 +15,6 @@ pub struct Config {
 	pub maximized: bool,
 	pub fullscreen: bool,
 	pub resizable: bool,
-	#[serde(with = "ScreenScalingDef")]
-	pub scaling: ScreenScaling,
 	// Tetra settings
 	pub show_mouse: bool,
 	pub vsync: bool,
@@ -41,25 +38,4 @@ pub fn load_config(path: &str) -> Config{
 			std::process::exit(1);
 		}
 	}
-}
-
-#[derive(Serialize, Deserialize)]
-#[serde(remote = "ScreenScaling")]
-pub enum ScreenScalingDef {
-	None,
-	Stretch,
-	ShowAll,
-	ShowAllPixelPerfect,
-	Crop,
-	CropPixelPerfect,
-	Resize,
-}
-
-#[derive(Serialize, Deserialize)]
-#[serde(remote = "Color")]
-struct ColorDef {
-	r: f32,
-	g: f32,
-	b: f32,
-	a: f32,
 }
