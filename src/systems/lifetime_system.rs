@@ -31,7 +31,5 @@ pub fn cull_deads(world: &mut World){
 			}
 		}
 	}
-	for dead in deads.iter() {
-		world.delete_entity(*dead).expect("entity will not die");
-	}
+	world.delete_entities(&deads).expect("entity will not die");
 }
