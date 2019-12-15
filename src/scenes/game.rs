@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use rand::prelude::*;
 use crate::models::config::Config;
 use crate::assets::{Assets,SoundHashmap};
-use tetra::{Context, graphics, audio, window};
+use tetra::{Context, graphics, audio, window, Event};
 use specs::prelude::*;
 use tetra::math::Vec2;
 use crate::components::{Position, Renderable, Rotation, Hidden, Scaleable, PlaySound};
@@ -66,7 +66,6 @@ impl Scene for GameScene {
 
 		// manual
 		lifetime_system::cull_deads(&mut self.world);
-		input_system::update(&mut self.world, ctx);
 
 		if self.world.read_resource::<Gamestate>().state == State::Init{
 			self.world.write_resource::<Gamestate>().state = State::Running;
@@ -156,6 +155,17 @@ impl Scene for GameScene {
 				);
 			}
 		}
+
+		Ok(Transition::None)
+	}
+
+	fn event(&mut self, ctx: &mut Context, event: Event) -> tetra::Result<Transition> {
+		if let Event::FocusLost = event{
+			if self.world.read_resource::<Gamestate>().state != State::Start{
+				self.world.write_resource::<Gamestate>().state = State::Pause;
+			}
+		}
+		input_system::update(&mut self.world, ctx, event);
 
 		Ok(Transition::None)
 	}

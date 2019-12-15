@@ -1,10 +1,11 @@
 
-use tetra::window;
+use tetra::{window, Event};
 use tetra::{Context, State};
 
 pub trait Scene {
 	fn update(&mut self, ctx: &mut Context) -> tetra::Result<Transition>;
 	fn draw(&mut self, ctx: &mut Context) -> tetra::Result<Transition>;
+	fn event(&mut self, ctx: &mut Context,event: Event) -> tetra::Result<Transition>;
 }
 
 #[allow(dead_code)]
@@ -65,6 +66,25 @@ impl State for SceneManager {
 			None => window::quit(ctx),
 		}
 
+		Ok(())
+	}
+
+	fn event(&mut self, ctx: &mut Context, event: Event) -> tetra::Result {
+		match self.scenes.last_mut() {
+			Some(active_scene) => match active_scene.event(ctx, event)?{
+				Transition::None => {}
+				Transition::Push(s) => {
+					self.scenes.push(s);
+				}
+				Transition::Pop => {
+					self.scenes.pop();
+				}
+				Transition::Quit => {
+					window::quit(ctx)
+				}
+			},
+			None => window::quit(ctx),
+		}
 		Ok(())
 	}
 }

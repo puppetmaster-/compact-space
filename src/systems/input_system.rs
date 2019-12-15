@@ -1,13 +1,13 @@
 use specs::prelude::*;
 use crate::components::{Input,Player};
 use tetra::input::{self, Key, GamepadButton};
-use tetra::Context;
+use tetra::{Context, Event};
 use crate::ressources::{Gamestate, State};
 
 #[allow(dead_code)]
 pub struct Sys {}
 
-pub fn update(world: &mut World, ctx: &mut Context){
+pub fn update(world: &mut World, ctx: &mut Context, _event: Event){
 	let mut game_state = world.write_resource::<Gamestate>();
 
 	let mut input_storage = world.write_storage::<Input>();
