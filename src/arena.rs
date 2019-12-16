@@ -31,9 +31,10 @@ pub fn reset(world: &mut World, _randomizer: StdRng){
 			to_delete.push(e);
 		}
 	}
-	for del in to_delete.iter() {
-		world.delete_entity(*del).expect("Deletion failed");
-	}
+	world.delete_entities(&to_delete).expect("Deletion failed");
+
+	world.maintain();
+
 	let player = add_player(world);
 	world.write_resource::<GameData>().player_id = player;
 	world.write_resource::<GameData>().phase = 0;
@@ -158,7 +159,6 @@ fn add_arena(world: &mut World){
 }
 
 fn add_player(world: &mut World) -> Entity{
-	//let position = WINDOWS_HALF / 2.0;
 	world.create_entity()
 		.with(Position { value: Vec2::zero() })
 		.with(Renderable {
