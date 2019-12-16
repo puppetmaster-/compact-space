@@ -92,6 +92,7 @@ impl<'a> System<'a> for Sys {
 
 			}else{
 				render.texture_id = 0;
+				//TODO con't create sound for thrust
 				sound_builder.request(6,0.2);
 			}
 			if input.shoot && timer.value <= 0{

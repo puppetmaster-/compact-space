@@ -88,16 +88,18 @@ impl Scene for GameScene {
 		}
 
 		// play sound
-		let mut play_sounds = self.world.write_storage::<PlaySound>();
-		let entities = self.world.entities();
-		let mut remove = vec![];
-		for (entity, play_sound) in (&entities, &play_sounds).join(){
-			self.sounds.get_mut(&play_sound.id).expect("no sound").play(play_sound.vol, self.randomizer.gen_range(0.5, 0.6));
-			remove.push(entity);
+		let mut played = vec![];
+		{
+			let play_sounds = self.world.read_storage::<PlaySound>();
+			let entities = self.world.entities();
+			for (entity, play_sound) in (&entities, &play_sounds).join(){
+				self.sounds.get_mut(&play_sound.id).expect("no sound").play(play_sound.vol, self.randomizer.gen_range(0.5, 0.6));
+				played.push(entity);
+			}
 		}
-		for r in remove {
-			play_sounds.remove(r);
-		}
+		self.world.delete_entities(&played).expect("can't delete played sound");
+
+		self.world.maintain();
 
 		Ok(Transition::None)
 	}
