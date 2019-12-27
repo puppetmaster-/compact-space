@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use rand::prelude::*;
 use crate::models::config::Config;
 use crate::assets::{Assets,SoundHashmap};
-use tetra::{Context, graphics, audio, window, Event};
+use tetra::{Context, graphics, audio, window, Event, time};
 use specs::prelude::*;
 use tetra::math::Vec2;
 use crate::components::{Position, Renderable, Rotation, Hidden, Scaleable, PlaySound};
@@ -28,6 +28,7 @@ pub struct GameScene {
 	background_music_instance: SoundInstance,
 	sounds: SoundHashmap,
 	randomizer: ThreadRng,
+	debug: bool,
 }
 
 impl GameScene {
@@ -55,6 +56,7 @@ impl GameScene {
 			background_music_instance,
 			sounds,
 			randomizer: rand::thread_rng(),
+			debug: true,
 		})
 	}
 }
@@ -63,6 +65,9 @@ impl Scene for GameScene {
 	fn update(&mut self, ctx: &mut Context) -> tetra::Result<Transition> {
 		// automatic
 		self.dispatcher.dispatch(&self.world);
+		if self.debug{
+			self.assets.borrow_mut().get_text_mut(1).set_content(format!("FPS: {:?}", (time::get_fps(ctx) + 0.1) as i32));
+		}
 
 		// manual
 		lifetime_system::cull_deads(&mut self.world);
@@ -81,7 +86,7 @@ impl Scene for GameScene {
 			self.measurement_running = false;
 			let min = (self.alive_sum / 60).as_secs();
 			let sec = self.alive_sum - Duration::from_secs((min*60) as u64);
-			self.assets.borrow_mut().get_text_mut().set_content(format!("{:?} min {:.2} sec", min, sec.as_secs_f32()));
+			self.assets.borrow_mut().get_text_mut(0).set_content(format!("{:?} min {:.2} sec", min, sec.as_secs_f32()));
 		}
 		if self.world.read_resource::<Gamestate>().state == State::Quit{
 			window::quit(ctx);
@@ -154,6 +159,12 @@ impl Scene for GameScene {
 				self.assets.borrow().draw(ctx, 802, DrawParams::new()
 					.position(camera.window_half)
 					.origin(Vec2::new(128.0,32.0))
+				);
+			}
+
+			if self.debug{
+				self.assets.borrow().draw_text(ctx, 1, DrawParams::new()
+					.position(Vec2::new(20.0,20.0))
 				);
 			}
 		}

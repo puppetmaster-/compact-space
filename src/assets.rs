@@ -31,8 +31,8 @@ impl Assets{
 		graphics::draw(ctx,&self.texts[index],draw_params);
 	}
 	
-	pub fn get_text_mut(&mut self) ->&mut Text{
-		&mut self.texts[0]
+	pub fn get_text_mut(&mut self, index: usize) ->&mut Text{
+		&mut self.texts[index]
 	}
 
 	pub fn build_sounds(&self, ctx: &mut Context) -> tetra::Result<SoundHashmap>{
@@ -44,7 +44,8 @@ impl Assets{
 fn build_texts(_ctx: &mut Context) ->tetra::Result<TextVec>{
 	let font = Font::default();
 	Ok(vec![
-		Text::new("", font, 32.0)
+		Text::new("", font, 32.0),
+		Text::new("", font, 24.0)
 	])
 }
 
