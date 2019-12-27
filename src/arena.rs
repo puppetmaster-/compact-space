@@ -2,7 +2,7 @@ use rand::prelude::*;
 use specs::prelude::*;
 use tetra::math::Vec2;
 use crate::components::{Position, Renderable, Player, Input, Timer, Rotation, Collision, Moveing, Camera, Dying, Explosive, DoNotDelete, Spawning, EnemyType, Emitter, Lifetime, Particle, ShootSound, ExplosionSound};
-use crate::auxiliary::{WHITE, Vec2F32, degrees_to_radians, ARENA_RADIUS, SEED};
+use crate::auxiliary::{WHITE, Vec2F32, degrees_to_radians, ARENA_RADIUS, SEED, SPAWN_DISTANCE};
 
 const ARENA_IMAGE_SIZE: f32 = 1400.0;
 
@@ -240,53 +240,64 @@ fn get_all_phasedata() ->Vec<PhaseData>{
 	data.push(PhaseData::new(
 		100,
 		EnemyType::Stroller,
-		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0),Vec2F32::new(-400.0,400.0),Vec2F32::new(400.0,-400.0)]));
+		vec![Vec2F32::new(-SPAWN_DISTANCE,-SPAWN_DISTANCE),
+			 Vec2F32::new(SPAWN_DISTANCE,SPAWN_DISTANCE),
+			 Vec2F32::new(-SPAWN_DISTANCE,SPAWN_DISTANCE),
+			 Vec2F32::new(SPAWN_DISTANCE,-SPAWN_DISTANCE)]));
 	data.push(PhaseData::new(
 		200,
 		EnemyType::Follower,
-		vec![Vec2F32::new(-400.0,0.0),Vec2F32::new(-400.0,200.0),Vec2F32::new(400.0,0.0),Vec2F32::new(400.0,200.0)]));
+		vec![Vec2F32::new(-SPAWN_DISTANCE,0.0),
+			 Vec2F32::new(-SPAWN_DISTANCE,200.0),
+			 Vec2F32::new(SPAWN_DISTANCE,0.0),
+			 Vec2F32::new(SPAWN_DISTANCE,200.0)]));
 	data.push(PhaseData::new(
 		400,
 		EnemyType::Stroller,
-		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0),Vec2F32::new(-400.0,400.0),Vec2F32::new(400.0,-400.0)]));
+		vec![Vec2F32::new(-SPAWN_DISTANCE,-SPAWN_DISTANCE),
+			 Vec2F32::new(SPAWN_DISTANCE,SPAWN_DISTANCE),
+			 Vec2F32::new(-SPAWN_DISTANCE,SPAWN_DISTANCE),
+			 Vec2F32::new(SPAWN_DISTANCE,-SPAWN_DISTANCE)]));
 	data.push(PhaseData::new(
 		1000,
 		EnemyType::Ballrider,
-		vec![Vec2F32::new(-400.0,-400.0),Vec2F32::new(400.0,400.0)]));
+		vec![Vec2F32::new(-SPAWN_DISTANCE,-SPAWN_DISTANCE),
+			 Vec2F32::new(SPAWN_DISTANCE,SPAWN_DISTANCE)]));
 	data.push(PhaseData::new(
 		100,
 		EnemyType::Stroller,
 		vec![
-			Vec2F32::new(-400.0,-400.0),
-			Vec2F32::new(400.0,400.0),
-			Vec2F32::new(-400.0,400.0),
-			Vec2F32::new(400.0,-400.0),
-			Vec2F32::new(0.0,-400.0),
-			Vec2F32::new(-400.0,0.0)
+			Vec2F32::new(-SPAWN_DISTANCE,-SPAWN_DISTANCE),
+			Vec2F32::new(SPAWN_DISTANCE,SPAWN_DISTANCE),
+			Vec2F32::new(-SPAWN_DISTANCE,SPAWN_DISTANCE),
+			Vec2F32::new(SPAWN_DISTANCE,-SPAWN_DISTANCE),
+			Vec2F32::new(0.0,-SPAWN_DISTANCE),
+			Vec2F32::new(-SPAWN_DISTANCE,0.0)
 		]));
 	data.push(PhaseData::new(
 		200,
 		EnemyType::Follower,
 		vec![
-			Vec2F32::new(-200.0,-400.0),
-			Vec2F32::new(-100.0,-400.0),
-			Vec2F32::new(0.0,-400.0),
-			Vec2F32::new(100.0,-400.0),
-			Vec2F32::new(200.0,-400.0),
+			Vec2F32::new(-200.0,-SPAWN_DISTANCE),
+			Vec2F32::new(-100.0,-SPAWN_DISTANCE),
+			Vec2F32::new(0.0,-SPAWN_DISTANCE),
+			Vec2F32::new(100.0,-SPAWN_DISTANCE),
+			Vec2F32::new(200.0,-SPAWN_DISTANCE),
 		]));
 	data.push(PhaseData::new(
 		500,
 		EnemyType::Ballrider,
-		vec![Vec2F32::new(-500.0,0.0),Vec2F32::new(500.0,0.0)]));
+		vec![Vec2F32::new(-500.0,0.0),
+			 Vec2F32::new(500.0,0.0)]));
 	data.push(PhaseData::new(
 		200,
 		EnemyType::Follower,
 		vec![
-			Vec2F32::new(-200.0,400.0),
-			Vec2F32::new(-100.0,400.0),
-			Vec2F32::new(0.0,400.0),
-			Vec2F32::new(100.0,400.0),
-			Vec2F32::new(200.0,400.0),
+			Vec2F32::new(-200.0,SPAWN_DISTANCE),
+			Vec2F32::new(-100.0,SPAWN_DISTANCE),
+			Vec2F32::new(0.0,SPAWN_DISTANCE),
+			Vec2F32::new(100.0,SPAWN_DISTANCE),
+			Vec2F32::new(200.0,SPAWN_DISTANCE),
 		]));
 	data
 }

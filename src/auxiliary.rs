@@ -3,6 +3,7 @@ use tetra::math::Vec2;
 use tetra::graphics::Color;
 
 pub(crate) const ARENA_RADIUS: f32 = 470.0;
+pub(crate) const SPAWN_DISTANCE: f32 = 500.0;
 //pub(crate) const WINDOWS_HALF: Vec2<f32> = Vec2::new(1200.0 / 2.0, 640.0 / 2.0);
 pub(crate) const ASSET_SIZE: Vec2<f32> = Vec2::new(16.0, 16.0);
 pub(crate) const WHITE:  Color = Color { r: 1.0, g: 1.0, b: 1.0, a: 1.0 };
