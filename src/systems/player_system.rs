@@ -73,14 +73,14 @@ impl<'a> System<'a> for Sys {
 					if !input.shoot{
 						rot.value -= Lerp::lerp(3.0, 6.0, 1.0 - moves.velocity / moves.max_velocity);
 					}else{
-						rot.value -= Lerp::lerp(1.0, 3.0, moves.velocity / moves.max_velocity);
+						rot.value -= Lerp::lerp(2.0, 3.0, moves.velocity / moves.max_velocity);
 					}
 					render.texture_id = 2;
 				} else if input.right {
 					if !input.shoot{
 						rot.value += Lerp::lerp(3.0, 6.0, 1.0 - moves.velocity / moves.max_velocity);
 					}else{
-						rot.value += Lerp::lerp(1.0, 3.0, moves.velocity / moves.max_velocity);
+						rot.value += Lerp::lerp(2.0, 3.0, moves.velocity / moves.max_velocity);
 					}
 					render.texture_id = 3;
 				}
