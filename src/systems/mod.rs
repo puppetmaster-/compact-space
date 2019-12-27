@@ -17,10 +17,12 @@ pub mod follower_system;
 pub mod spawning_system;
 pub mod emitter_system;
 pub mod sound_system;
+pub mod visibility_system;
 
 pub fn create_dispatcher<'a,'b>() -> Dispatcher<'a, 'b>{
 	DispatcherBuilder::new()
 		.with(timer_system::Sys{},"timer",&[])
+		.with(visibility_system::Sys{},"visibility",&[])
 		.with(spawning_system::Sys{},"spawning",&["timer"])
 		.with(player_system::Sys {}, "player", &[])
 		.with(lifetime_system::Sys{}, "lifetime",&[])
