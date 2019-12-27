@@ -54,36 +54,39 @@ fn add_spawner(world: &mut World){
 
 fn add_visual_particles(world: &mut World){
 	let mut randomizer: StdRng = SeedableRng::from_seed(SEED);
+
 	world.create_entity()
 		.with(Timer{ value: 0, initial_value: 100 })
 		.with(Emitter{
-			amount: 100,
+			amount: 40,
 			lifetime: 10000.0,
 			direction: Vec2F32::new(1.0, 0.0),
-			render_order: 0,
+			render_order: -1,
 			texture_ids: vec![100, 115],
 			spawn_time_range: (10, 50),
-			velocity_rang: (0.1, 0.5),
-			pos_x_range: (-1000.0, 1000.0),
-			pos_y_range: (-1000.0, 1000.0),
+			velocity_rang: (0.1, 0.4),
+			pos_x_range: (-2000.0, 500.0),
+			pos_y_range: (-500.0, 500.0),
 			color_range: (0.3, 0.8),
 		})
 		.with(DoNotDelete)
 		.with(Lifetime{ time: 1.0, tick_value: 1.0 })
 		.build();
-	for i in 0..120 {
-		let x = ARENA_RADIUS * degrees_to_radians((i*3) as f32).cos();
-		let y = ARENA_RADIUS * degrees_to_radians((i*3) as f32).sin();
+
+
+	for i in 0..45 {
+		let x = ARENA_RADIUS * degrees_to_radians((i*8) as f32).cos();
+		let y = ARENA_RADIUS * degrees_to_radians((i*8) as f32).sin();
 		world.create_entity()
 			.with(Timer { value: randomizer.gen_range(0,400), initial_value: 100 })
 			.with(Emitter {
 				amount: 1,
 				direction: Vec2F32::new(0.0 - x,0.0 - y).normalized(),
 				render_order: 11,
-				lifetime: 200.0,
+				lifetime: 100.0,
 				texture_ids: vec![122, 123],
 				spawn_time_range: (200, 400),
-				velocity_rang: (0.2, 0.3),
+				velocity_rang: (0.3, 0.4),
 				pos_x_range: (x+0.1, x+0.2),
 				pos_y_range: (y+0.1, y+0.2),
 				color_range: (0.99, 1.0),
@@ -91,16 +94,17 @@ fn add_visual_particles(world: &mut World){
 			.with(DoNotDelete)
 			.build();
 	}
-	for i in 0..88 {
-		let x = 360.0 * degrees_to_radians((i*4) as f32).cos();
-		let y = 360.0 * degrees_to_radians((i*4) as f32).sin();
+	/*
+	for i in 0..45 {
+		let x = 360.0 * degrees_to_radians((i*8) as f32).cos();
+		let y = 360.0 * degrees_to_radians((i*8) as f32).sin();
 		world.create_entity()
 			.with(Timer { value: randomizer.gen_range(0,400), initial_value: 100 })
 			.with(Emitter {
 				amount: 1,
 				direction: Vec2F32::new(0.0 - x,0.0 - y).normalized(),
 				render_order: 9,
-				lifetime: 300.0,
+				lifetime: 200.0,
 				texture_ids: vec![130, 131],
 				spawn_time_range: (200, 400),
 				velocity_rang: (0.1, 0.2),
@@ -111,6 +115,7 @@ fn add_visual_particles(world: &mut World){
 			.with(DoNotDelete)
 			.build();
 	}
+	*/
 }
 
 fn add_arena(world: &mut World){

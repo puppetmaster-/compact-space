@@ -48,6 +48,7 @@ impl<'a> System<'a> for Sys {
 						if indestructible.get(*entity1).is_some() || indestructible.get(*entity2).is_some(){
 							sound_builder.request(7,0.1);
 						}
+						// target get also destroyed
 						if let Some(t) = targets.get(*entity1) {collided.insert(t.target, Collided).expect("could not insert in collided");}
 						if let Some(t) = targets.get(*entity2) {collided.insert(t.target, Collided).expect("could not insert in collided");}
 
