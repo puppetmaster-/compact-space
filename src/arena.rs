@@ -189,7 +189,7 @@ fn add_player(world: &mut World) -> Entity{
 		.with(ExplosionSound{ id: 5, vol: 0.4 })
 		.with(Camera)
 		.with(Dying)
-		.with(Explosive{ texture_id: (300, 304), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default() })
+		.with(Explosive{ texture_id: (300, 304), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default(), amount_range: (10, 20) })
 		.with(Collision{ radius: 4.0})
 		.build()
 }

@@ -84,7 +84,7 @@ impl<'a> System<'a> for Sys {
 					acceleration: 0.0 }, &mut moveing)
 				.with(Scaleable{ value: Vec2::new(2.0,2.0)}, &mut scalable)
 				.with(Bullet,&mut bullets)
-				.with(Explosive{ texture_id: (4, 6), color: WHITE, velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), rotation: Default::default() }, &mut explosions)
+				.with(Explosive{ texture_id: (4, 6), color: WHITE, velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), rotation: Default::default(), amount_range: (2, 4) }, &mut explosions)
 				.with(Collision{ radius: 3.0}, &mut collisions)
 				.build();
 		}

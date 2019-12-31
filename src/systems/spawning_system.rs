@@ -84,7 +84,7 @@ impl<'a> System<'a> for Sys {
 									.with(Collision{ radius: 7.0 },&mut collisions)
 									.with(ExplosionSound{ id: 0, vol: 0.2 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 0.2, rotation: 1.2 }, &mut followers)
-									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default() }, &mut explosives)
+									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default(), amount_range: (3, 6) }, &mut explosives)
 									.with(Enemy,&mut enemies)
 									.build();}
 							},
@@ -112,7 +112,7 @@ impl<'a> System<'a> for Sys {
 									.with(Collision{ radius: 7.0 },&mut collisions)
 									.with(ExplosionSound{ id: 8, vol: 1.0 }, &mut explosion_sounds)
 									.with(Following{ target: game_data.player_id, rate: 1.0, rotation: 0.2 }, &mut followers)
-									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color, rotation: Default::default() }, &mut explosives)
+									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color, rotation: Default::default(), amount_range: (5, 8) }, &mut explosives)
 									.with(Enemy,&mut enemies)
 									.build();}
 						},
@@ -143,7 +143,9 @@ impl<'a> System<'a> for Sys {
 										g: 0.5,
 										b: 0.5,
 										a: 1.0
-									}, rotation: Default::default() }, &mut explosives)
+									}, rotation: Default::default(),
+										amount_range: (20, 30)
+									}, &mut explosives)
 									.with(Enemy,&mut enemies)
 									.build();
 								entities.build_entity()
@@ -159,7 +161,7 @@ impl<'a> System<'a> for Sys {
 									.with(Lifetime{ time: 1.0, tick_value: 0.0 }, &mut lieftimes)
 									.with(Moveing{ ..Default::default() }, &mut moveing)
 									.with(Enemy, &mut enemies)
-									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default() }, &mut explosives)
+									.with(Explosive{ texture_id: (305, 309), velocity_range: (1.0, 2.0), lifetime_range: (10.0, 20.0), color: WHITE, rotation: Default::default(), amount_range: (10, 20) }, &mut explosives)
 									.with(Target{ target: entity, offset: Vec2::new(-20.0,randomizer.rnd.gen_range(-55.0,-45.0)) }, &mut targets)
 									.build();
 							}

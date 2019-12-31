@@ -36,7 +36,7 @@ impl<'a> System<'a> for Sys {
 		) = data;
 		let mut deads_entities = vec![];
 		for (entity, position, explosion, _) in (&*entities, &positions, &mut explosives, &collided).join() {
-			for _ in 0..randomizer.rnd.gen_range(10, 20){
+			for _ in 0..randomizer.rnd.gen_range(explosion.amount_range.0, explosion.amount_range.1){
 				let direction = Vec2F32::new(0.0,1.0).rotated_z(degrees_to_radians(randomizer.rnd.gen_range(0.0, 360.0)));
 				let texture_id = randomizer.rnd.gen_range(explosion.texture_id.0,explosion.texture_id.1);
 				let velocity = randomizer.rnd.gen_range(explosion.velocity_range.0,explosion.velocity_range.1);
