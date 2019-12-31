@@ -7,7 +7,7 @@
 	fullscreen: true,
 	resizable: false,
 	show_mouse: false,
-	vsync: true,
+	vsync: false,
 	quit_on_escape: false,
 	master_volume: 1.0,
 )
