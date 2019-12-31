@@ -147,6 +147,7 @@ pub struct Explosive{
 	pub lifetime_range: (f32,f32),
 	pub color: Color,
 	pub rotation: Rotation,
+	pub amount_range: (i32,i32),
 	//pub acceleration_range: (f32,f32),
 	//pub particleRequest: ParticleRequest,
 }
