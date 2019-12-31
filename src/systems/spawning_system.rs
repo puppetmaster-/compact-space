@@ -67,7 +67,7 @@ impl<'a> System<'a> for Sys {
 									.with(Position { value: phase_positions[i]},&mut positions)
 									.with(Renderable {
 										texture_id: 200,
-										render_order: 3,
+										render_order: 4,
 										color: WHITE,
 										origin: Vec2::new(16.0,16.0),
 									}, &mut renderables)

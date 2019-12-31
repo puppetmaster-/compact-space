@@ -72,7 +72,7 @@ impl<'a> System<'a> for Sys {
 				.with(Position{ value: new_bullet.pos }, &mut positions)
 				.with(Renderable{
 					texture_id: 5,
-					render_order: 1,
+					render_order: 9,
 					color: Color { r: 0.0, g: 1.0, b: randomizer.rnd.gen_range(0.4, 0.8), a: 1.0 },
 					origin:  ASSET_SIZE / 2.0, },&mut renderables)
 				.with(Lifetime{ time: 2.0 , tick_value: 1.0 / new_bullet.lifetime }, &mut lieftimes)

@@ -61,7 +61,7 @@ fn add_visual_particles(world: &mut World){
 			amount: 40,
 			lifetime: 10000.0,
 			direction: Vec2F32::new(1.0, 0.0),
-			render_order: -1,
+			render_order: -9,
 			texture_ids: vec![100, 115],
 			spawn_time_range: (10, 50),
 			velocity_rang: (0.1, 0.4),
@@ -82,7 +82,7 @@ fn add_visual_particles(world: &mut World){
 			.with(Emitter {
 				amount: 1,
 				direction: Vec2F32::new(0.0 - x,0.0 - y).normalized(),
-				render_order: 11,
+				render_order: 23,
 				lifetime: 100.0,
 				texture_ids: vec![122, 123],
 				spawn_time_range: (200, 400),
@@ -126,7 +126,7 @@ fn add_arena(world: &mut World){
 					.with(Position { value: Vec2::new(i as f32 * ARENA_IMAGE_SIZE, j as f32 * ARENA_IMAGE_SIZE) })
 					.with(Renderable {
 						texture_id: 502,
-						render_order: 10,
+						render_order: 20,
 						color: WHITE,
 						origin: Vec2::new(ARENA_IMAGE_SIZE/2.0, ARENA_IMAGE_SIZE/2.0),
 					})
@@ -139,7 +139,7 @@ fn add_arena(world: &mut World){
 		.with(Position { value: Vec2::new(0.0,0.0) })
 		.with(Renderable {
 			texture_id: 500,
-			render_order: 10,
+			render_order: 21,
 			color: WHITE,
 			origin: Vec2::new(ARENA_IMAGE_SIZE/2.0,ARENA_IMAGE_SIZE/2.0),
 		})
@@ -149,7 +149,7 @@ fn add_arena(world: &mut World){
 		.with(Position { value: Vec2::new(0.0,0.0) })
 		.with(Renderable {
 			texture_id: 501,
-			render_order: 11,
+			render_order: 22,
 			color: WHITE,
 			origin: Vec2::new(ARENA_IMAGE_SIZE/2.0,ARENA_IMAGE_SIZE/2.0),
 		})
