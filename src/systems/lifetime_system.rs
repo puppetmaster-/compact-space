@@ -6,9 +6,7 @@ pub struct Sys {}
 
 impl<'a> System<'a> for Sys {
 	#[allow(clippy::type_complexity)]
-	type SystemData = (
-		WriteStorage<'a, Lifetime>
-	);
+	type SystemData = WriteStorage<'a, Lifetime>;
 
 	fn run(&mut self, data : Self::SystemData) {
 		let mut lifetimes = data;

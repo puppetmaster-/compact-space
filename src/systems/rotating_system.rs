@@ -5,9 +5,7 @@ pub struct Sys {}
 
 impl<'a> System<'a> for Sys {
 	#[allow(clippy::type_complexity)]
-	type SystemData = (
-		WriteStorage<'a, Rotation>
-	);
+	type SystemData = WriteStorage<'a, Rotation>;
 
 	fn run(&mut self, data : Self::SystemData) {
 		let mut rotatables = data;
