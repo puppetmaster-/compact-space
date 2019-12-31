@@ -1,5 +1,5 @@
 use std::rc::Rc;
-use std::cell::RefCell;
+use std::cell::{RefCell, Ref};
 use rand::prelude::*;
 use crate::models::config::Config;
 use crate::assets::{Assets,SoundHashmap};
@@ -56,7 +56,7 @@ impl GameScene {
 			background_music_instance,
 			sounds,
 			randomizer: rand::thread_rng(),
-			debug: true,
+			debug: false,
 		})
 	}
 }
@@ -110,65 +110,35 @@ impl Scene for GameScene {
 	}
 
 	fn draw(&mut self, ctx: &mut Context) -> tetra::Result<Transition> {
-		let camera = self.world.read_resource::<CameraRessource>();
 		graphics::clear(ctx, self.config.clear_color);
 
-		//ecs rendering
-		let positions = self.world.read_storage::<Position>();
-		let renderables = self.world.read_storage::<Renderable>();
-		let entities = self.world.entities();
-		let rotations = self.world.read_storage::<Rotation>();
-		let scaleable = self.world.read_storage::<Scaleable>();
-		let hidden = self.world.read_storage::<Hidden>();
+		draw_entities(ctx, &self.world, self.assets.borrow());
 
-		let mut data = (&positions, &renderables, &entities, !&hidden).par_join().collect::<Vec<_>>();
-		data.sort_by(|&a, &b| b.1.render_order.cmp(&a.1.render_order) );
-
-		for (pos, render, entity, _) in data.iter().rev() {
-			let rot = match rotations.get(*entity){
-				Some(r) => r.value as f32,
-				_ => 0.0
-			};
-			let scale = match scaleable.get(*entity){
-				Some(s) => s.value,
-				_ => Vec2::one(),
-			};
-			let draw_params = DrawParams::new()
-				.position(pos.value - camera.offset)
-				.color(render.color)
-				.rotation(degrees_to_radians(rot))
-				.scale(scale)
-				.origin(render.origin);
-			self.assets.borrow().draw(ctx, render.texture_id, draw_params);
-			if self.world.read_resource::<Gamestate>().state == State::Dead{
-				self.assets.borrow().draw(ctx, 800, DrawParams::new()
-					.position(camera.window_half)
-					.origin(Vec2::new(128.0,32.0))
-				);
+		let camera = self.world.read_resource::<CameraRessource>();
+		match self.world.read_resource::<Gamestate>().state{
+			State::Start => {self.assets.borrow().draw(ctx, 801, DrawParams::new()
+				.position(camera.window_half)
+				.origin(Vec2::new(128.0,32.0))
+			);},
+			State::Dead => {self.assets.borrow().draw(ctx, 800, DrawParams::new()
+				.position(camera.window_half)
+				.origin(Vec2::new(128.0,32.0))
+			);
 				self.assets.borrow().draw_text(ctx, 0, DrawParams::new()
 					.position(camera.window_half-Vec2::new(120.0,-40.0))
-				);
-			}
-			if self.world.read_resource::<Gamestate>().state == State::Start{
-				self.assets.borrow().draw(ctx, 801, DrawParams::new()
-					.position(camera.window_half)
-					.origin(Vec2::new(128.0,32.0))
-				);
-			}
-			if self.world.read_resource::<Gamestate>().state == State::Pause{
-				self.assets.borrow().draw(ctx, 802, DrawParams::new()
-					.position(camera.window_half)
-					.origin(Vec2::new(128.0,32.0))
-				);
-			}
-
-			if self.debug{
-				self.assets.borrow().draw_text(ctx, 1, DrawParams::new()
-					.position(Vec2::new(20.0,20.0))
-				);
-			}
+				);},
+			State::Pause => {self.assets.borrow().draw(ctx, 802, DrawParams::new()
+				.position(camera.window_half)
+				.origin(Vec2::new(128.0,32.0))
+			);},
+			_ => {}
 		}
 
+		if self.debug{
+			self.assets.borrow().draw_text(ctx, 1, DrawParams::new()
+				.position(Vec2::new(20.0,20.0))
+			);
+		}
 		Ok(Transition::None)
 	}
 
@@ -181,5 +151,42 @@ impl Scene for GameScene {
 		input_system::update(&mut self.world, ctx, event);
 
 		Ok(Transition::None)
+	}
+}
+
+
+fn draw_entities(ctx: &mut Context,world: &World, assets: Ref<Assets>){
+	let camera = world.read_resource::<CameraRessource>();
+
+	let positions = world.read_storage::<Position>();
+	let renderables = world.read_storage::<Renderable>();
+	let entities = world.entities();
+	let rotations = world.read_storage::<Rotation>();
+	let scaleable = world.read_storage::<Scaleable>();
+	let hidden = world.read_storage::<Hidden>();
+
+	let mut data = (&positions, &renderables, &entities, !&hidden).par_join().collect::<Vec<_>>();
+	data.sort_by(|&a, &b|{
+		b.1.render_order.cmp(&a.1.render_order)
+			.then(b.1.texture_id.cmp(&a.1.texture_id))
+			.then(b.0.value.y.partial_cmp(&a.0.value.y).unwrap())
+	} );
+
+	for (pos, render, entity, _) in data.iter().rev() {
+		let rot = match rotations.get(*entity){
+			Some(r) => r.value as f32,
+			_ => 0.0
+		};
+		let scale = match scaleable.get(*entity){
+			Some(s) => s.value,
+			_ => Vec2::one(),
+		};
+		let draw_params = DrawParams::new()
+			.position(pos.value - camera.offset)
+			.color(render.color)
+			.rotation(degrees_to_radians(rot))
+			.scale(scale)
+			.origin(render.origin);
+		assets.draw(ctx, render.texture_id, draw_params);
 	}
 }
