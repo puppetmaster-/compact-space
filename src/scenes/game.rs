@@ -174,7 +174,7 @@ impl Scene for GameScene {
 
 	fn event(&mut self, ctx: &mut Context, event: Event) -> tetra::Result<Transition> {
 		if let Event::FocusLost = event{
-			if self.world.read_resource::<Gamestate>().state != State::Start{
+			if self.world.read_resource::<Gamestate>().state != State::Dead && self.world.read_resource::<Gamestate>().state != State::Start {
 				self.world.write_resource::<Gamestate>().state = State::Pause;
 			}
 		}
