@@ -56,23 +56,39 @@ fn add_visual_particles(world: &mut World){
 	let mut randomizer: StdRng = SeedableRng::from_seed(SEED);
 
 	world.create_entity()
+		.with(Timer { value: randomizer.gen_range(0,100), initial_value: 100 })
+		.with(Emitter {
+			amount: 2,
+			direction: Vec2F32::new(1.0,0.0),
+			render_order: -10,
+			lifetime: 3000.0,
+			texture_ids: vec![100, 115],
+			spawn_time_range: (1, 200),
+			velocity_rang: (0.1, 0.8),
+			pos_x_range: (-ARENA_RADIUS-30.0, -ARENA_RADIUS-20.0),
+			pos_y_range: (-ARENA_RADIUS+20.0, ARENA_RADIUS-20.0),
+			color_range: (0.3, 0.8),
+		})
+		.with(DoNotDelete)
+		.build();
+
+	world.create_entity()
 		.with(Timer{ value: 0, initial_value: 100 })
 		.with(Emitter{
-			amount: 40,
-			lifetime: 10000.0,
+			amount: 20,
+			lifetime: 1000.0,
 			direction: Vec2F32::new(1.0, 0.0),
 			render_order: -9,
 			texture_ids: vec![100, 115],
 			spawn_time_range: (10, 50),
-			velocity_rang: (0.1, 0.4),
-			pos_x_range: (-2000.0, 500.0),
+			velocity_rang: (0.1, 0.8),
+			pos_x_range: (-500.0, 500.0),
 			pos_y_range: (-500.0, 500.0),
 			color_range: (0.3, 0.8),
 		})
 		.with(DoNotDelete)
 		.with(Lifetime{ time: 1.0, tick_value: 1.0 })
 		.build();
-
 
 	for i in 0..45 {
 		let x = ARENA_RADIUS * degrees_to_radians((i*8) as f32).cos();
@@ -94,7 +110,6 @@ fn add_visual_particles(world: &mut World){
 			.with(DoNotDelete)
 			.build();
 	}
-	/*
 	for i in 0..45 {
 		let x = 360.0 * degrees_to_radians((i*8) as f32).cos();
 		let y = 360.0 * degrees_to_radians((i*8) as f32).sin();
@@ -115,7 +130,6 @@ fn add_visual_particles(world: &mut World){
 			.with(DoNotDelete)
 			.build();
 	}
-	*/
 }
 
 fn add_arena(world: &mut World){
